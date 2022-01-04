@@ -7,7 +7,6 @@ const api = axios.create({
 
 
 export const signNumber = async (number) => {
-    console.log(number)
     try {
         const resp = await api.post('/r',number);
         localStorage.setItem('Authorization',resp.data)
@@ -21,12 +20,6 @@ export const signNumber = async (number) => {
 
 export const getQuote = async (data) => {
  
-
-   
-    // let d = 1000 * 60 * 60 * 24;
-    // let t = data.end_date.getTime() - data.start_date.getTime() 
-    // let e = Math.round(t / d)
-    // console.log(t,e)
     
     try {
         const resp = await api.post('/quotation',{

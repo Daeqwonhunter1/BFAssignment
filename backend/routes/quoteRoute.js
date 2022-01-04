@@ -2,12 +2,20 @@ require('dotenv').config({path: "../config.env"})
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken');
+const Quote = require('../models/quoteSchema');
+
 
 const restrict = (req,res,next) => {
     try {
        const token = req.headers.authorization.split(" ")[1];
        const data = jwt.verify(token, process.env.TOKEN_SECRET);
-       res.locals.user = token;
+      
+       res.locals.user = {
+           pNumber : data.pNumber,
+           time: new Date(data.t),
+           token,
+           iat: data.iat
+       };
        next();
     } catch (error) {
         res.json("Enter Phone Number for key")
@@ -15,14 +23,7 @@ const restrict = (req,res,next) => {
 
 }
 
-class quotationRes {
-    constructor(age,currency_id,start_date,end_date){
-        this.age = age;
-        this.currency_id = currency_id;
-        this.start_date = start_date;
-        this.end_date = end_date ;
-    }
-}
+
 
 const calcAgeLoad = async (age) => {
 
@@ -50,31 +51,39 @@ const calcTripLength = async (endDate,startDate) => {
 router.get('/', async (req,res) => {
 })
 router.post('/r',async(req,res) => {
+
     const t = new Date()
-    const token = jwt.sign({number:req.body.pNumber,t: t.getSeconds()},process.env.TOKEN_SECRET)
+    const token = jwt.sign({...req.body,t:Date.now()},process.env.TOKEN_SECRET)
+    console.log(token )
     res.json(token)
     //Store in LocalStorage
 })
+
+
 router.post('/quotation', restrict, async(req,res) => {
     let fixedRate = 3;
     try {
-        let ageLoad = await calcAgeLoad(req.body.age)
-        let tripLength = await calcTripLength(req.body.end_date,req.body.start_date)
-        console.log(tripLength)
-         res.json({
-             total: Math.ceil(fixedRate * ageLoad * tripLength) ,
-             currency_id: req.body.currency_id,
-             quotation_id:res.locals.user
-         })
+        let newQuote = await new Quote({
+            ...req.body,
+            token:res.locals.user.token
+            
+        });
+        newQuote.save(async function(err,quote) {
+            if(err) res.send(err);
+            
+            let ageLoad = await calcAgeLoad(req.body.age)
+            let tripLength = await calcTripLength(req.body.end_date,req.body.start_date)
+            console.log(quote)
+            res.json({
+                total: Math.ceil(fixedRate * ageLoad * tripLength),
+                currency_id: req.body.currency_id,
+                quotation_id: quote._id
+            })
+        })
     } catch (error) {
-        
+        res.send(error)
     }
    
-    
-   
-
 })
-
-
 
 module.exports = router;

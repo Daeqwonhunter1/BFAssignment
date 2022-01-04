@@ -1,38 +1,84 @@
 .App {
   text-align: center;
+  background-color: rgb(244,245,249);
+  width: 100vw;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#app-form-container {
+  position: absolute;
+  top:35%;
+  left:35%;
+  width:30vw;
+  height: 25vh;
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(239,239,241);
+  padding: 10px;
+  box-shadow:  -1px 1px rgb(239,239,241),
+         -2px 2px rgb(239,239,241),
+         -3px 3px rgb(239,239,241),
+         -4px 4px rgb(239,239,241),
+         -5px 5px rgb(239,239,241);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#number-form-container{
+
+}
+#number-form-container label{
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(27,52,70);
+  font-family: "Lucida Console",Monospace;
+}
+#number-form {
+  position: absolute;
+  top:40%;
+  left:30%
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#phone-number {
+  width:10vw;
+  height: 2vh;
+  border: 2px solid black;
+  border-radius: 4px;
 }
 
-.App-link {
-  color: #61dafb;
+#phone-number-submit{
+  content: '';
+  position: absolute;
+  right: -100px;
+  top: 40%;
+  margin-top: -12px;
+  width: 100px;
+  height: 28px;
+  border: 2px solid;
+  background-color: rgb(246,182,55);
+  
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#quote-form-container label{
+  font-weight: bold;
+  font-family: "Lucida Console",Monospace;
+  color: rgb(27,52,70);
+  display: block;
+  padding: 10px;
+}
+
+#quote-submit {
+  content: '';
+  position: absolute;
+  top:85%;
+  left:43%;
+  margin-top: -12px;
+  width: 100px;
+  height: 28px;
+  border: 2px solid;
+  background-color: rgb(246,182,55);
+}
+
+#quote label  {
+  font-weight: bold;
+  font-family: "Lucida Console",Monospace;
+  color: rgb(27,52,70);
 }
